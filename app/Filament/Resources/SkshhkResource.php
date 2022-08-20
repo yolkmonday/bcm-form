@@ -16,14 +16,14 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use App\Models\Ganis;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 class SkshhkResource extends Resource
 {
     protected static ?string $model = Skshhk::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationLabel = 'SKSHHK';
+    protected static ?string $navigationLabel = 'Form ';
 
     public static function form(Form $form): Form
     {
