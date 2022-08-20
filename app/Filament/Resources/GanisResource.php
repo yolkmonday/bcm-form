@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class GanisResource extends Resource
 {
     protected static ?string $model = Ganis::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationLabel = 'Tenaga Teknis';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
@@ -36,19 +36,19 @@ class GanisResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('nama'),
-                Tables\Columns\TextColumn::make('no_reg'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                // Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('nama')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('no_reg')->label('No Reg'),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime(),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->tooltip('Ubah Data Tenaga Teknis'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

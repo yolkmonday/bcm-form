@@ -13,7 +13,12 @@ class ListGanis extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Tambah Tenaga Teknis'),
         ];
+    }
+
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'Belum ada data';
     }
 }
