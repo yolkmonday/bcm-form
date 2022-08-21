@@ -24,9 +24,9 @@ use Filament\Tables\Columns\BooleanColumn;
 class SkshhkResource extends Resource
 {
     protected static ?string $model = Skshhk::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationLabel = 'Form ';
+    protected static ?string $navigationLabel = 'SKSHHK';
+    protected static ?string $navigationGroup = 'Form';
 
     public static function form(Form $form): Form
     {

@@ -22,6 +22,7 @@ class GanisResource extends Resource
     protected static ?string $model = Ganis::class;
     protected static ?string $navigationLabel = 'Tenaga Teknis';
     protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
