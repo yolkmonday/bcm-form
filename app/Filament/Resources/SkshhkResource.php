@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\SkshhkDetailResource\RelationManagers\NoSeriRelationManager;
 use App\Filament\Resources\SkshhkResource\Pages;
 use App\Filament\Resources\SkshhkResource\RelationManagers;
 use App\Models\Skshhk;
@@ -17,6 +18,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use App\Models\Ganis;
 use Filament\Forms\Components\Card;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\BooleanColumn;
 
 // use Illuminate\Support\Facades\Auth;
@@ -187,9 +189,7 @@ class SkshhkResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
