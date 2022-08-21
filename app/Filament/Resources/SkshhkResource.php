@@ -16,6 +16,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use App\Models\Ganis;
+use Filament\Forms\Components\Card;
+use Filament\Tables\Columns\BooleanColumn;
+
 // use Illuminate\Support\Facades\Auth;
 
 class SkshhkResource extends Resource
@@ -40,9 +43,9 @@ class SkshhkResource extends Resource
                             ->maxLength(50),
                         Grid::make(2)->schema([
                             Forms\Components\DatePicker::make('tgl_terbit')->label("Tanggal Terbit")
-                                ->required(),
+                                ->required()->maxDate(now()),
                             Forms\Components\DatePicker::make('tgl_terima')->label("Tanggal Terima")
-                                ->required(),
+                                ->required()->maxDate(now()),
 
                         ])
 
@@ -73,7 +76,7 @@ class SkshhkResource extends Resource
 
                 Section::make('Ukuran di Dokumen')
                     ->schema([
-                        Grid::make(3)->schema([
+                        Grid::make(5)->schema([
                             Forms\Components\TextInput::make('dok_panjang')->numeric()
                                 ->required()->label('Panjang'),
                             Forms\Components\TextInput::make('dok_lebar')->numeric()
@@ -87,7 +90,7 @@ class SkshhkResource extends Resource
                     ]),
                 Section::make('Ukuran di Lapangan')
                     ->schema([
-                        Grid::make(3)->schema([
+                        Grid::make(5)->schema([
                             Forms\Components\TextInput::make('lp_panjang')->label('Panjang')->numeric()
                                 ->required(),
                             Forms\Components\TextInput::make('lp_lebar')->numeric()->label('Lebar')
@@ -111,10 +114,9 @@ class SkshhkResource extends Resource
 
                         ])
                     ]),
-
                 Section::make('Dokumentasi')
                     ->schema([
-                        Grid::make(3)->schema(
+                        Grid::make(2)->schema(
                             [
                                 FileUpload::make('foto_depan_angkutan')
                                     ->image()->directory('form-attachments'),
@@ -130,7 +132,6 @@ class SkshhkResource extends Resource
                         )
 
                     ]),
-
             ]);
     }
 
@@ -138,47 +139,49 @@ class SkshhkResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id_ganis'),
-                Tables\Columns\TextColumn::make('tgl_terbit')
+                // Tables\Columns\TextColumn::make('id_ganis'),
+                Tables\Columns\TextColumn::make('no_seri')->label("No Seri")->searchable(),
+                Tables\Columns\TextColumn::make('vendor_nama')->label("Vendor")->searchable(),
+
+                Tables\Columns\TextColumn::make('tgl_terbit')->label("Tanggal Terbit")
                     ->date(),
-                Tables\Columns\TextColumn::make('tgl_terima')
+                Tables\Columns\TextColumn::make('tgl_terima')->label("Tanggal Terima")
                     ->date(),
-                Tables\Columns\TextColumn::make('no_seri'),
-                Tables\Columns\TextColumn::make('vendor_nama'),
-                Tables\Columns\TextColumn::make('vendor_alamat'),
-                Tables\Columns\TextColumn::make('jenis_hh'),
-                Tables\Columns\TextColumn::make('jumlah_batang'),
-                Tables\Columns\TextColumn::make('is_sesuai'),
-                Tables\Columns\TextColumn::make('no_plat'),
-                Tables\Columns\TextColumn::make('nama_supir'),
-                Tables\Columns\TextColumn::make('dok_panjang'),
-                Tables\Columns\TextColumn::make('dok_lebar'),
-                Tables\Columns\TextColumn::make('dok_tinggi_1'),
-                Tables\Columns\TextColumn::make('dok_tinggi_2'),
-                Tables\Columns\TextColumn::make('dok_tinggi_3'),
-                Tables\Columns\TextColumn::make('lp_panjang'),
-                Tables\Columns\TextColumn::make('lp_lebar'),
-                Tables\Columns\TextColumn::make('lp_tinggi_1'),
-                Tables\Columns\TextColumn::make('lp_tinggi_2'),
-                Tables\Columns\TextColumn::make('lp_tinggi_3'),
-                Tables\Columns\TextColumn::make('foto_depan_angkutan'),
-                Tables\Columns\TextColumn::make('foto_belakang_angkutan'),
-                Tables\Columns\TextColumn::make('foto_tinggi_1'),
-                Tables\Columns\TextColumn::make('foto_tinggi_2'),
-                Tables\Columns\TextColumn::make('foto_tinggi_3'),
+                // Tables\Columns\TextColumn::make('vendor_alamat'),
+                Tables\Columns\TextColumn::make('jenis_hh')->label("Jenis HH")->searchable(),
+                Tables\Columns\TextColumn::make('jumlah_batang')->label("Jumlah Batang"),
+
+                // Tables\Columns\TextColumn::make('no_plat'),
+                // Tables\Columns\TextColumn::make('nama_supir'),
+                // Tables\Columns\TextColumn::make('dok_panjang'),
+                // Tables\Columns\TextColumn::make('dok_lebar'),
+                // Tables\Columns\TextColumn::make('dok_tinggi_1'),
+                // Tables\Columns\TextColumn::make('dok_tinggi_2'),
+                // Tables\Columns\TextColumn::make('dok_tinggi_3'),
+                // Tables\Columns\TextColumn::make('lp_panjang'),
+                // Tables\Columns\TextColumn::make('lp_lebar'),
+                // Tables\Columns\TextColumn::make('lp_tinggi_1'),
+                // Tables\Columns\TextColumn::make('lp_tinggi_2'),
+                // Tables\Columns\TextColumn::make('lp_tinggi_3'),
+                // Tables\Columns\TextColumn::make('foto_depan_angkutan'),
+                // Tables\Columns\TextColumn::make('foto_belakang_angkutan'),
+                // Tables\Columns\TextColumn::make('foto_tinggi_1'),
+                // Tables\Columns\TextColumn::make('foto_tinggi_2'),
+                // Tables\Columns\TextColumn::make('foto_tinggi_3'),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->date(),
+                BooleanColumn::make('is_sesuai')
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle')->label('')->searchable()
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\EditAction::make()->label("edit"),
+                Tables\Actions\ViewAction::make()->label("cetak")
             ]);
     }
 
@@ -195,6 +198,7 @@ class SkshhkResource extends Resource
             'index' => Pages\ListSkshhks::route('/'),
             'create' => Pages\CreateSkshhk::route('/create'),
             'edit' => Pages\EditSkshhk::route('/{record}/edit'),
+            'print' => Pages\PrintSkshhk::route('/{record}/print')
         ];
     }
 }

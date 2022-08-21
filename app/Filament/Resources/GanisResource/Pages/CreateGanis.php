@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateGanis extends CreateRecord
 {
     protected static string $resource = GanisResource::class;
+    protected static ?string $title = 'Tambah Tenaga Teknis';
 }

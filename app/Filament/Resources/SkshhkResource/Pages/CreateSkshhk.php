@@ -9,11 +9,13 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateSkshhk extends CreateRecord
 {
     protected static string $resource = SkshhkResource::class;
+    protected static ?string $title = 'Tambah Form SKSHHK';
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
     protected function getCreatedNotificationMessage(): ?string
     {
         return 'Berhasil menambahkan data !';
