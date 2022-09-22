@@ -9,5 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PrintSkshhk extends EditRecord
 {
-    protected static string $resource = SkshhkResource::class;
+    // protected static string $resource = SkshhkResource::class;
+    protected function getCreatedNotificationMessage(): ?string
+    {
+        return 'Berhasil menambahkan data !';
+    }
 }

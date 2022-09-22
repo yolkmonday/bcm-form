@@ -183,7 +183,8 @@ class SkshhkResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label("edit"),
-                Tables\Actions\ViewAction::make()->label("cetak")
+                Tables\Actions\Action::make('print')->label("cetak")->url(fn (Skshhk $record): string => route('skshhk.cetak', $record))
+                    ->openUrlInNewTab(),
             ]);
     }
 
