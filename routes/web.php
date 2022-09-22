@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
 
 Route::get('/cetak-skshk/{id}', [CetakController::class, 'cetak'])->name('skshhk.cetak');
