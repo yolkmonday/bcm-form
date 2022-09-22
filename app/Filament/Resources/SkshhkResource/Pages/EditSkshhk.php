@@ -20,7 +20,7 @@ class EditSkshhk extends EditRecord
                     $data['created_by'] = Auth::user()->id;
                     return $data;
                 }
-            )->label("Ubah"),
+            )->label("Hapus"),
         ];
     }
 }
