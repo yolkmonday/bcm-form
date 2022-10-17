@@ -17,6 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use App\Models\Ganis;
+use App\Models\HasilHutan;
 use App\Models\Vendor;
 use Filament\Forms\Components\Card;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -67,9 +68,10 @@ class SkshhkResource extends Resource
                             Forms\Components\TextInput::make('nama_supir')->label("Nama Supir")
                                 ->required()
                                 ->maxLength(500),
-                            Forms\Components\TextInput::make('jenis_hh')->label("Jenis Hasil Hutan")
-                                ->required()
-                                ->maxLength(500),
+                            Forms\Components\Select::make('id_hh')
+                                ->label('Jenis Hasil Hutan')->required()
+                                ->options(HasilHutan::all()->pluck('nama', 'id'))
+                                ->searchable(),
 
                         ])
                     ]),
