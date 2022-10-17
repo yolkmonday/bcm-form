@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class GanisResource extends Resource
 {
     protected static ?string $model = Ganis::class;
-    protected static ?string $navigationLabel = 'Tenaga Teknis';
+    protected static ?string $navigationLabel = 'User Management';
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationGroup = 'Settings';
 

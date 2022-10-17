@@ -17,7 +17,9 @@ class HasilHutanResource extends Resource
 {
     protected static ?string $model = HasilHutan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationLabel = 'Hasil Hutan';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
@@ -49,14 +51,14 @@ class HasilHutanResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -64,5 +66,5 @@ class HasilHutanResource extends Resource
             'create' => Pages\CreateHasilHutan::route('/create'),
             'edit' => Pages\EditHasilHutan::route('/{record}/edit'),
         ];
-    }    
+    }
 }
