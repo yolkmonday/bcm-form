@@ -17,6 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use App\Models\Ganis;
+use App\Models\Vendor;
 use Filament\Forms\Components\Card;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\BooleanColumn;
@@ -56,12 +57,10 @@ class SkshhkResource extends Resource
                 Section::make('Informasi Vendor')
                     ->schema([
                         Grid::make(2)->schema([
-                            Forms\Components\TextInput::make('vendor_nama')
-                                ->required()
-                                ->maxLength(500)->label('Nama Perusahaan'),
-                            Forms\Components\TextInput::make('vendor_alamat')
-                                ->required()->label('Alamat ')
-                                ->maxLength(500),
+                            Forms\Components\Select::make('id_vendor')
+                                ->label('Vendor')->required()
+                                ->options(Vendor::all()->pluck('nama_vendor', 'id'))
+                                ->searchable(),
                             Forms\Components\TextInput::make('no_plat')
                                 ->required()->label("Plat Nomor")
                                 ->maxLength(500),
@@ -71,14 +70,13 @@ class SkshhkResource extends Resource
                             Forms\Components\TextInput::make('jenis_hh')->label("Jenis Hasil Hutan")
                                 ->required()
                                 ->maxLength(500),
-                            Forms\Components\TextInput::make('jumlah_batang')->label("Jumlah Batang")
-                                ->required()->numeric(),
+
                         ])
                     ]),
 
-                Section::make('Ukuran di Dokumen')
+                Section::make('Ukuran Dokumen')
                     ->schema([
-                        Grid::make(5)->schema([
+                        Grid::make(3)->schema([
                             Forms\Components\TextInput::make('dok_panjang')->numeric()
                                 ->required()->label('Panjang'),
                             Forms\Components\TextInput::make('dok_lebar')->numeric()
@@ -87,12 +85,14 @@ class SkshhkResource extends Resource
                                 ->required()->label('Tinggi 1'),
                             Forms\Components\TextInput::make('dok_tinggi_2')->numeric()
                                 ->required()->label('Tinggi 2'),
-                            Forms\Components\TextInput::make('dok_tinggi_3')->numeric()->label('Tinggi 3')->required()
+                            Forms\Components\TextInput::make('dok_tinggi_3')->numeric()->label('Tinggi 3')->required(),
+                            Forms\Components\TextInput::make('dok_jumlah_batang')->label("Jumlah Batang")
+                                ->required()->numeric(),
                         ])
                     ]),
-                Section::make('Ukuran di Lapangan')
+                Section::make('Ukuran Fisik')
                     ->schema([
-                        Grid::make(5)->schema([
+                        Grid::make(3)->schema([
                             Forms\Components\TextInput::make('lp_panjang')->label('Panjang')->numeric()
                                 ->required(),
                             Forms\Components\TextInput::make('lp_lebar')->numeric()->label('Lebar')
@@ -103,6 +103,8 @@ class SkshhkResource extends Resource
                                 ->required(),
                             Forms\Components\TextInput::make('lp_tinggi_3')->numeric()->label('Tinggi 3')
                                 ->required(),
+                            Forms\Components\TextInput::make('lp_jumlah_batang')->label("Jumlah Batang")
+                                ->required()->numeric(),
                         ]),
                         Grid::make(1)->schema([
                             Forms\Components\Radio::make('is_sesuai')
@@ -129,6 +131,8 @@ class SkshhkResource extends Resource
                                 FileUpload::make('foto_tinggi_2')
                                     ->image()->directory('form-attachments'),
                                 FileUpload::make('foto_tinggi_3')
+                                    ->image()->directory('form-attachments'),
+                                FileUpload::make('foto_dokumen')
                                     ->image()->directory('form-attachments'),
                             ]
                         )

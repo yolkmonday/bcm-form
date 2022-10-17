@@ -32,12 +32,21 @@ class GanisResource extends Resource
                     Grid::make(2)->schema([
                         Forms\Components\TextInput::make('nama')
                             ->required()
+                            ->label("Nama")
                             ->maxLength(500),
                         Forms\Components\TextInput::make('no_reg')
+                            ->label("Nomor Registrasi")
                             ->required()
                             ->maxLength(500),
-                        FileUpload::make('foto')
-                            ->image()->directory('foto')
+                        Forms\Components\TextInput::make('no_sk')
+                            ->label("Nomor SK")
+                            ->required()
+                            ->maxLength(500),
+                        Forms\Components\DatePicker::make('tgl_sk')
+                            ->label("Tanggal SK")
+                            ->required(),
+                        FileUpload::make('ttd')->label("Tanda Tangan")
+                            ->image()->directory('ttd')
                     ])
                 ])
             );
