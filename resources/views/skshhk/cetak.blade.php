@@ -89,14 +89,30 @@
 
         <tr style="border: solid 1px #000;padding: 2pt;text-align:center">
             <td style="border: solid 1px #000;padding: 2pt;text-align:center">Volume (m<sup>3</sup>)</td>
-            <td style="border: solid 1px #000;padding: 2pt;text-align:center">{{$data->dok_panjang*$data->dok_lebar*(($data->dok_tinggi_1+$data->dok_tinggi_2+$data->dok_tinggi_3)/3)}}</td>
-            <td style="border: solid 1px #000;padding: 2pt;text-align:center">{{$data->lp_panjang*$data->lp_lebar*(($data->lp_tinggi_1+$data->lp_tinggi_2+$data->lp_tinggi_3)/3)}}</td>
+            <td style="border: solid 1px #000;padding: 2pt;text-align:center">{{$v_dok}}</td>
+            <td style="border: solid 1px #000;padding: 2pt;text-align:center">{{$v_lp}}</td>
         </tr>
 
         <tr style="border: solid 1px #000;padding: 2pt;text-align:center">
             <td style="border: solid 1px #000;padding: 2pt;text-align:center">Selisih Volume</td>
-            <td style="border: solid 1px #000;padding: 2pt;text-align:center">-</td>
-            <td style="border: solid 1px #000;padding: 2pt;text-align:center">-</td>
+            <td style="border: solid 1px #000;padding: 2pt;text-align:center">
+                @if($v_lp>=$v_dok)
+                 0
+                @else
+                @php
+                abs($v_dok-$v_lp)
+                @endphp
+                @endif
+            </td>
+            <td style="border: solid 1px #000;padding: 2pt;text-align:center">
+             @if($v_lp<$v_dok)
+             @php
+                  abs($v_dok-$v_lp)
+                  @endphp
+                @else
+                0
+                @endif
+            </td>
         </tr>
     </table>
 
@@ -141,7 +157,7 @@
 <p style="font-size: 11pt; margin-left: 0.7cm">
     Desa Baru, {{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('d-m-Y') }}
     <br>
-    Ganis PHPL-PKBR
+
     <img src={{ url('/storage') }}/{{$data->ttd}} style="height: 100px" alt="" >
     <span style="display: block;text-transform:uppercase;font-weight:800">{{$data->petugas->nama}}</span>
     <span style="display: block;text-transform:uppercase">No.Reg. {{$data->petugas->no_reg}}</span>
@@ -163,7 +179,11 @@
 <p style="font-size: 11pt;margin-left: 0.7cm">Pada hari {{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('l, d-m-Y') }}  kami selaku petugas yang ditunjuk dengan surat keputusan nomor <<NO SK>> tanggal <<TANGGAL SK>>. Telah melakukan pemeriksaan fisik kayu di lokasi PT Brilian Cipta Mandiri dengan rincian sebagai berikut:</p>
 
 <ul style="list-style-type: decimal;font-size: 11pt;">
-    <li style="margin-top: 8px">Dokumen SKSHHK <<VENDOR>> nomor <SKSHHK>> tanggal <<TANGGAL TERIMA>> dinyatakan sesuai/tidak sesuai* [IF] dengan aplikasi SIPUHH dan diberi keterangan/diterakan “TELAH DIGUNAKAN” pada tanggal <<TANGGAL TERIMA>> dengan rincian sebagai berikut:
+    <li style="margin-top: 8px">Dokumen SKSHHK {{$data->vendor->nama_vendor}} nomor {{$data->no_seri}} tanggal {{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('d-m-Y') }} dinyatakan  @if ($data->is_sesuai==1)
+        sesuai
+    @else
+        tidak sesuai
+    @endif dengan aplikasi SIPUHH dan diberi keterangan/diterakan “TELAH DIGUNAKAN” pada tanggal{{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('d-m-Y') }}   dengan rincian sebagai berikut:
 
     </li>
     <table style="border-collapse: collapse;font-size: 10pt;margin-top: 4px">
@@ -190,24 +210,24 @@
     <li style="margin-top: 8px">Hasil Pemeriksaan Fisik
     <br>
     <p>
-        Menurut perhitungan yang didasarkan pada Daftar Kayu Bulat nomor <<NO SKSHHK>> tanggal <<TANGGAL TERIMA>> sebagai lampiran dokumen SKSHHK tersebut pada butir 1, dengan Daftar Pemeriksaan Fisik Kayu terlampir, hasilnya sebagai berikut:
+        Menurut perhitungan yang didasarkan pada Daftar Kayu Bulat nomor {{$data->no_seri}} tanggal {{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('d-m-Y') }}  sebagai lampiran dokumen SKSHHK tersebut pada butir 1, dengan Daftar Pemeriksaan Fisik Kayu terlampir, hasilnya sebagai berikut:
     </p>
      <table style="margin-top: 8px; font-size: 11pt;">
         <tr>
             <td>a. Perbedaan Jumlah Batang</td>
-            <td>: </td>
+            <td>: {{abs($data->dok_jumlah_batang-$data->lp_jumlah_batang)}}</td>
 
         </tr>
 
          <tr>
             <td>b. Perbedaan Jumlah Jenis Kayu</td>
-            <td>: </td>
+            <td>: 0</td>
 
         </tr>
 
          <tr>
             <td>c. Perbedaan Volume</td>
-            <td>: </td>
+            <td>: {{(abs($v_dok-$v_lp)/$v_lp)*100}}%</td>
 
         </tr>
 
@@ -218,7 +238,13 @@
 </ul>
 
 <p style="font-size: 11pt; margin-left: 0.7cm">
-    Dengan ini dinyatakan bahwa SKSHHK {{$data->vendor->nama_vendor}} nomor {{$data->no_seri}} sesuai/tidak sesuai* dengan fisik kayu.
+    Dengan ini dinyatakan bahwa SKSHHK {{$data->vendor->nama_vendor}} nomor {{$data->no_seri}}
+    @if ($data->is_sesuai==1)
+        sesuai
+    @else
+        tidak sesuai
+    @endif
+     dengan fisik kayu.
 
 
 </p>
@@ -231,7 +257,7 @@ Demikian berita acara ini dibuat dengan sesungguhnya dan dapat digunakan dengan 
 <p style="font-size: 11pt; margin-left: 0.7cm">
     Desa Baru, {{  Illuminate\Support\Carbon::parse($data->tgl_terima)->format('d-m-Y') }}
     <br>
-    Ganis PHPL-PKBR
+
     <img src={{ url('/storage') }}/{{$data->ttd}} style="height: 100px" alt="" >
     <span style="display: block;text-transform:uppercase;font-weight:800">{{$data->petugas->nama}}</span>
     <span style="display: block;text-transform:uppercase">No.Reg. {{$data->petugas->no_reg}}</span>
