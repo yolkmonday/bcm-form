@@ -271,7 +271,7 @@ Demikian berita acara ini dibuat dengan sesungguhnya dan dapat digunakan dengan 
 
 <script>
     window.addEventListener('load', function () {
-        // window.print()
+        window.print()
         console.log('All assets are loaded')
     })
 
